@@ -56,8 +56,9 @@ Artworks.downloadFromArtist = function (user, callback) {
                     }).pipe(Fs.createWriteStream(p))
                 }
 
+                var title = $("img", $cArtwork).attr("alt");
                 try {
-                path = userDir + url.match(/\/([0-9]+)\//)[1] + "." + url.match(/\/.*\.(.*)\?.*$/)[1];
+                path = userDir + url.match(/\/([0-9]+)\//)[1] + " - " + title + "." + url.match(/\/.*\.(.*)\?.*$/)[1];
                 } catch (e) {
                     debugger
                 }
