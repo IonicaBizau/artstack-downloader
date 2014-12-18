@@ -28,9 +28,9 @@ Artists.all = function (callback) {
       , i = 0
       ;
 
-    function getSeq(i) {
+    function getSeq(page) {
         Request.get({
-            url: "https://theartstack.com/" + Config.username + "/tags?page=" + i
+            url: "https://theartstack.com/" + Config.username + "/tags?page=" + page
           , headers: {
                 "Cookie": Config.cookie
             }
@@ -46,18 +46,14 @@ Artists.all = function (callback) {
 
             for (i = 0; i < $artists.length; ++i) {
                 $cArtist = $artists.eq(i);
-                try {
                 var followers_count = parseInt($(".display-name > .followers", $cArtist).text().replace(/\,/g, "").match(/^\(([0-9]+) followers\)/)[1])
-                } catch (e) {
-                    debugger
-                }
                 artists.push({
                     profile_url: $("a", $cArtist).attr("href")
                   , display_name:  $(".display-name > [dir]", $cArtist).text()
                   , followers_count: followers_count
                 });
             }
-            getSeq(i + 1);
+            getSeq(page + 1);
         });
     }
 
