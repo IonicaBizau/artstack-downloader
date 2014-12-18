@@ -20,15 +20,16 @@ Artworks.downloadFromArtist = function (user, callback) {
       , i = 0
       , cUrl = null
       , userDir = DOWNLOAD_DIR + "/" + user.display_name
+      , path = ""
       ;
 
     try {
         Fs.mkdirSync(userDir)
     } catch (e) {}
 
-    function getSeq(i) {
+    function getSeq(page) {
         Request.get({
-            url: "https://theartstack.com/artists/" + user.profile_url + "?page=" + i
+            url: "https://theartstack.com" + user.profile_url + "?page=" + page
           , headers: {
                 "Cookie": Config.cookie
             }
@@ -47,7 +48,7 @@ Artworks.downloadFromArtist = function (user, callback) {
                 });
 
                 function download(u, p) {
-                    request(u, function (err, res, body) {
+                    Request(u, function (err, res, body) {
                         if (err) {
                             return console.log("Failed: " + u);
                         }
@@ -55,13 +56,19 @@ Artworks.downloadFromArtist = function (user, callback) {
                     }).pipe(Fs.createWriteStream(p))
                 }
 
+                try {
+                path = userDir + url.match(/\/([0-9]+)\//)[1] + url.match(/\/.*\.(.*)\?.*$/)[1];
+                } catch (e) {
+                    debugger
+                }
                 if (!Fs.existsSync(path)) {
                     download(url, path);
                 }
             }
-            getSeq(i + 1);
+            getSeq(page + 1);
         });
     }
 
+    debugger
     getSeq(1);
 };
