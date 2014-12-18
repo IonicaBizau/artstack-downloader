@@ -69,6 +69,5 @@ Artworks.downloadFromArtist = function (user, callback) {
         });
     }
 
-    debugger
     getSeq(1);
 };
