@@ -57,7 +57,7 @@ Artworks.downloadFromArtist = function (user, callback) {
                 }
 
                 try {
-                path = userDir + url.match(/\/([0-9]+)\//)[1] + url.match(/\/.*\.(.*)\?.*$/)[1];
+                path = userDir + url.match(/\/([0-9]+)\//)[1] + "." + url.match(/\/.*\.(.*)\?.*$/)[1];
                 } catch (e) {
                     debugger
                 }
