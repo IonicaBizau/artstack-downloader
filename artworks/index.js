@@ -7,6 +7,7 @@ var Config = require("../config")
   , FsExtra = require("fs-extra")
   ;
 
+const DOWNLOAD_DIR = Path.resolve(__dirname + "/../downloads/");
 var Artworks = module.exports = {};
 
 // TODO JSDoc
@@ -17,11 +18,17 @@ Artworks.downloadFromArtist = function (user, callback) {
       , $cArtwork = null
       , artworks = []
       , i = 0
+      , cUrl = null
+      , userDir = DOWNLOAD_DIR + "/" + user.display_name
       ;
+
+    try {
+        Fs.mkdirSync(userDir)
+    } catch (e) {}
 
     function getSeq(i) {
         Request.get({
-            url: "https://theartstack.com/artists/" + user.display_name + "?page=" + i
+            url: "https://theartstack.com/artists/" + user.profile_url + "?page=" + i
           , headers: {
                 "Cookie": Config.cookie
             }
@@ -34,11 +41,24 @@ Artworks.downloadFromArtist = function (user, callback) {
             }
             for (i = 0; i < $artworks.length; ++i) {
                 $cArtwork = $artworks.eq(i);
+                url = $cArtwork.attr("data-highres-pic");
                 artworks.push({
-                    url: $cArtwork.attr("data-highres-pic")
+                    url: url
                 });
+
+                function download(u, p) {
+                    request(u, function (err, res, body) {
+                        if (err) {
+                            return console.log("Failed: " + u);
+                        }
+                        console.log("Done: " + u);
+                    }).pipe(Fs.createWriteStream(p))
+                }
+
+                if (!Fs.existsSync(path)) {
+                    download(url, path);
+                }
             }
-            debugger
             getSeq(i + 1);
         });
     }
