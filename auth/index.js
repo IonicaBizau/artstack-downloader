@@ -22,7 +22,7 @@ Auth.getCookie = function (callback) {
           , form: QueryString.stringify({
                 "utf8": "✓"
               , "authenticity_token": "token"
-              , "user_session[email]": Config.username
+              , "user_session[email]": Config.email
               , "user_session[password]": Config.password
               , "user_session[remember_me]": 0
               , "user_session[remember_me]": 1
