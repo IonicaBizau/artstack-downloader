@@ -17,7 +17,7 @@ Artists.all = function (callback) {
     if (Fs.existsSync(CACHE_FILE)) {
         Cache = FsExtra.readJsonSync(CACHE_FILE);
         if (!Config.check_artists && Cache.artists) {
-            return Cache.artists;
+            return callback(null, Cache.artists);
         }
     }
 
