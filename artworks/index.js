@@ -19,7 +19,7 @@ Artworks.downloadFromArtist = function (user, callback) {
       , artworks = []
       , i = 0
       , cUrl = null
-      , userDir = DOWNLOAD_DIR + "/" + user.display_name "/"
+      , userDir = DOWNLOAD_DIR + "/" + user.display_name + "/"
       , path = ""
       ;
 
