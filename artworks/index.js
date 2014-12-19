@@ -36,7 +36,7 @@ Artworks.downloadFromArtist = function (user, callback) {
         }, function (err, res, body) {
             if (err) { return callback(err); }
             $ = Cheerio.load(body);
-            $artworks = $("[data-highres-pic]");
+            $artworks = $("a[data-highres-pic]");
             if (!$artworks.length) {
                 return callback(null, artworks);
             }
@@ -56,7 +56,7 @@ Artworks.downloadFromArtist = function (user, callback) {
                     }).pipe(Fs.createWriteStream(p))
                 }
 
-                var title = $("img", $cArtwork).attr("alt");
+                var title = ($cArtwork.text() || "Untitled").replace(/[^a-zA-Z ]/g, "");
                 try {
                 path = userDir + url.match(/\/([0-9]+)\//)[1] + " - " + title + "." + url.match(/\/.*\.(.*)\?.*$/)[1];
                 } catch (e) {
