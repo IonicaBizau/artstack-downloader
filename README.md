@@ -7,6 +7,7 @@ Run the following commands to download and install the application:
 ```sh
 $ git clone git@github.com:IonicaBizau/artstack-downloader.git artstack-downloader
 $ cd artstack-downloader
+$ cp conf.templ.json conf.json # please edit this file with correct credentials
 $ npm install
 ```
 
