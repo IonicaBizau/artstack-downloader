@@ -3,7 +3,7 @@ var ArtStack = require("artstack")
   , Request = require("request")
   , CliUpdate = require("cli-update")
   , CliBox = require("cli-box")
-  , Config = require("./config")
+  , Config = require("./conf")
   , Fs = require("fs")
   , Path = require("path")
   ;
