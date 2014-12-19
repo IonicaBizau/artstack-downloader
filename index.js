@@ -8,10 +8,14 @@ var ArtStack = require("artstack")
   , Path = require("path")
   ;
 
+// Constants
 const DOWNLOAD_DIR = Path.resolve(__dirname + "/downloads/");
 
+// Authenticate
 ArtStack.auth(Config, function (err) {
     if (err) throw err;
+
+    // Get users
     ArtStack.tags.list(function (err, artists) {
         if (err) throw err;
         console.log("Fetched " + artists.length + " artists.");
@@ -26,11 +30,17 @@ ArtStack.auth(Config, function (err) {
           , c = null
           ;
 
+        /*!
+         * updateScreen
+         * Updates the screen.
+         *
+         * @name updateScreen
+         * @function
+         * @return {undefined}
+         */
         function updateScreen() {
 
             var content = "";
-            // x .... 100
-            // p .... c
             for (k in downloads) {
                 c = downloads[k];
                 content += k + ": " + c.progress + "/" + c.count + "\n"
@@ -48,6 +58,15 @@ ArtStack.auth(Config, function (err) {
             CliUpdate.render(box.toString());
         }
 
+        /*!
+         * handleUsr
+         * Downloads artworks from user.
+         *
+         * @name handleUsr
+         * @function
+         * @param {User} user The current user.
+         * @return {undefined}
+         */
         function handleUsr(user) {
             userDir = DOWNLOAD_DIR + "/" + user.display_name + "/";
             try {
@@ -78,6 +97,7 @@ ArtStack.auth(Config, function (err) {
             });
         }
 
+        // Iterate users
         for (var i = 0; i < artists.length; ++i) {
             handleUsr(artists[i]);
         }
