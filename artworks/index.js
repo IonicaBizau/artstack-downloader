@@ -36,7 +36,7 @@ Artworks.downloadFromArtist = function (user, callback) {
         }, function (err, res, body) {
             if (err) { return callback(err); }
             $ = Cheerio.load(body);
-            $artworks = $("a[data-highres-pic]");
+            $artworks = $(".work-title [data-highres-pic]");
             if (!$artworks.length) {
                 return callback(null, artworks);
             }
