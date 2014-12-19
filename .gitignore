@@ -4,4 +4,4 @@
 *.log
 node_modules
 
-config/index.json
+conf.json
