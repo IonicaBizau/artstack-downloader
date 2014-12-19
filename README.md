@@ -1,4 +1,4 @@
-# artstack-downloader
+# ArtStack Downloader
 Download artworks from your following users.
 
 ## Installation
