@@ -1,30 +1,85 @@
 // Dependencies
-var Request = require("request")
-  , Cheerio = require("cheerio")
+var ArtStack = require("artstack")
+  , Request = require("request")
+  , CliUpdate = require("cli-update")
+  , CliBox = require("cli-box")
   , Config = require("./config")
-  , Auth = require("./auth")
-  , Artists = require("./artists")
-  , Artworks = require("./artworks")
   , Fs = require("fs")
+  , Path = require("path")
   ;
 
-console.log("Authenticating...");
-Auth.getCookie(function (err, cookie) {
+const DOWNLOAD_DIR = Path.resolve(__dirname + "/downloads/");
+
+ArtStack.auth(Config, function (err) {
     if (err) throw err;
-    console.log("Got the cookie: " + cookie);
-    Config.cookie = cookie;
-    Artists.all(function (err, allArtists) {
-        console.log("Fetched " + allArtists.length + " artists.");
-        function handleUsr(u) {
-            Artworks.downloadFromArtist(u, function (err, artws) {
-                if (err) { console.log("Something went wrong when downloading artworks from user: " + u.display_name, err); }
-                else {
-                    console.log("Fetched all artworks from " + u.display_name + " but images are still downloading.");
+    ArtStack.tags.list(function (err, artists) {
+        if (err) throw err;
+        console.log("Fetched " + artists.length + " artists.");
+
+        var downloads = {}
+          , cUsr = null
+          , ii = 0
+          , url = null
+          , path = null
+          , userDir = null
+          , k = null
+          , c = null
+          ;
+
+        function updateScreen() {
+
+            var content = "";
+            // x .... 100
+            // p .... c
+            for (k in downloads) {
+                c = downloads[k];
+                content += k + ": " + c.progress + "/" + c.count + "\n"
+            }
+
+            var box = new CliBox({
+                fullscreen: true
+              , marks: {}
+            }, {
+                text: content
+              , hAlign: "left"
+              , vAlign: "top"
+            });
+
+            CliUpdate.render(box.toString());
+        }
+
+        function handleUsr(user) {
+            userDir = DOWNLOAD_DIR + "/" + user.display_name + "/";
+            try {
+                Fs.mkdirSync(userDir)
+            } catch (e) {}
+
+            ArtStack.artworks.fromArtist(user, function (err, artws) {
+                if (err) throw err;
+
+                cUsr = downloads[user.display_name] = {
+                    progress: 0
+                  , count: artws.length
+                };
+
+                for (ii = 0; ii < artws.length; ++ii) {
+                    url = artws[ii].url;
+                    path = userDir + url.match(/\/([0-9]+)\//)[1] + "." + url.match(/\/.*\.(.*)\?.*$/)[1];
+                    if (!Fs.existsSync(path)) {
+                        Request(url, function (err, res, body) {
+                            ++cUsr.progress;
+                            updateScreen();
+                        }).pipe(Fs.createWriteStream(path))
+                    } else {
+                        ++cUsr.progress;
+                        updateScreen();
+                    }
                 }
             });
         }
-        for (var i = 0; i < allArtists.length; ++i) {
-            handleUsr(allArtists[i]);
+
+        for (var i = 0; i < artists.length; ++i) {
+            handleUsr(artists[i]);
         }
     });
 });
