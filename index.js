@@ -6,6 +6,7 @@ var ArtStack = require("artstack")
   , Config = require("./conf")
   , Fs = require("fs")
   , Path = require("path")
+  , IsThere = require("is-there")
   ;
 
 // Constants
@@ -84,7 +85,7 @@ ArtStack.auth(Config, function (err) {
                 for (ii = 0; ii < artws.length; ++ii) {
                     url = artws[ii].url;
                     path = userDir + url.match(/\/([0-9]+)\//)[1] + "." + url.match(/\/.*\.(.*)\?.*$/)[1];
-                    if (!Fs.existsSync(path)) {
+                    if (!IsThere.sync(path)) {
                         Request(url, function (err, res, body) {
                             ++cUsr.progress;
                             updateScreen();
