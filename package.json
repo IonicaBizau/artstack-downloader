@@ -1,6 +1,6 @@
 {
   "name": "artstack-downloader",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Download artworks from your following users.",
   "main": "index.js",
   "dependencies": {
@@ -22,8 +22,8 @@
     "artstack",
     "downloader"
   ],
-  "author": "Ionică Bizău <bizauionica@gmail.com>",
-  "license": "MIT",
+  "author": "Ionică Bizău <bizauionica@gmail.com> (http://ionicabizau.net)",
+  "license": "KINDLY",
   "bugs": {
     "url": "https://github.com/IonicaBizau/artstack-downloader/issues"
   },
