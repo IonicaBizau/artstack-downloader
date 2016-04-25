@@ -1,6 +1,6 @@
 {
   "name": "artstack-downloader",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Download artworks from your following users.",
   "main": "index.js",
   "dependencies": {
@@ -27,5 +27,16 @@
   "bugs": {
     "url": "https://github.com/IonicaBizau/artstack-downloader/issues"
   },
-  "homepage": "https://github.com/IonicaBizau/artstack-downloader"
+  "homepage": "https://github.com/IonicaBizau/artstack-downloader",
+  "files": [
+    "bin/",
+    "app/",
+    "lib/",
+    "dist/",
+    "src/",
+    "resources/",
+    "menu/",
+    "cli.js",
+    "index.js"
+  ]
 }
