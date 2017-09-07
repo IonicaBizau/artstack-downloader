@@ -1,6 +1,6 @@
 {
   "name": "artstack-downloader",
-  "version": "1.4.7",
+  "version": "1.4.8",
   "description": "Download artworks from your following users.",
   "main": "index.js",
   "dependencies": {
@@ -38,6 +38,9 @@
     "resources/",
     "menu/",
     "cli.js",
-    "index.js"
+    "index.js",
+    "bloggify.js",
+    "bloggify.json",
+    "bloggify/"
   ]
 }
