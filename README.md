@@ -10,7 +10,11 @@
 ## :cloud: Installation
 
 ```sh
-$ npm i --save artstack-downloader
+# Using npm
+npm install --save artstack-downloader
+
+# Using yarn
+yarn add artstack-downloader
 ```
 
 
